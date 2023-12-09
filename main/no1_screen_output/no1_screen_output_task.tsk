@@ -1,0 +1,13 @@
+﻿version 3.00
+cm_version 1.0
+platform CM-510
+o main
+o begin
+o load param_dest:var:count param_src:dec_num:0
+o while(1)
+o begin
+o load param_dest:cm:9 param_src:dec_num:1
+o compute param_dest:var:count param_src:var:count aop:+ param_src:dec_num:1
+o load param_dest:cm:11 param_src:var:count
+o end
+o end

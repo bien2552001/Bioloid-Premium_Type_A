@@ -1,0 +1,418 @@
+﻿version 3.00
+cm_version 1.0
+platform CM-510
+o // param_text:Title- Tutorial Premium Kit Robot  Gyro Sensor
+o // param_text:First Distribution : 2009/10/01
+o // param_text:Last Modify : 2009/10/01
+o // param_text:[Operating]
+o // param_text:Using Gripper Sensor Walk 
+o main
+o begin
+o call faddr_dest:InitializationWalk
+o call faddr_dest:InitializationGyro
+- 
+o while(1)
+o begin
+o if param_src:cm:2 lop:== param_src:bool_num:1 rop:then
+o begin
+o load param_dest:var:ReceiveData param_src:cm:1
+o if param_src:var:ReceiveData lop:== param_src:rc100z_num:1 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:1
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:2 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:2
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:4 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:3
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:8 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:4
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:5 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:7
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:9 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:8
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:6 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:9
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:10 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:10
+o call faddr_dest:WalkExecute
+o end
+o if param_src:var:ReceiveData lop:== param_src:rc100z_num:17 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:1
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:18 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:2
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:20 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:5
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:24 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:6
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:21 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:13
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:25 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:14
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:22 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:15
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:26 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:16
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:36 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:11
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:40 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:12
+o call faddr_dest:WalkExecute
+o end
+o elseif param_src:var:ReceiveData lop:== param_src:rc100z_num:0 rop:then
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:0
+o call faddr_dest:WalkExecute
+o end
+o else
+o begin
+o load param_dest:var:WalkCommand param_src:dec_num:0
+o call faddr_dest:WalkExecute
+o end
+- 
+o if param_src:motion:1:51 lop:== param_src:bool_num:0 rop:then
+o begin
+o load param_dest:motion:1:50 param_src:var:BalancePage
+o end
+o end
+o end
+o end
+- 
+o function faddr_src:InitializationWalk
+o begin
+o load param_dest:var:BalancePage param_src:dec_num:224
+o load param_dest:var:WalkPageStart param_src:dec_num:31
+o load param_dest:var:WalkCommand param_src:dec_num:0
+o load param_dest:motion:1:50 param_src:var:WalkPageStart
+o call faddr_dest:WaitMotion
+o load param_dest:var:WalkState param_src:dec_num:0
+o end
+- 
+o function faddr_src:WalkExecute
+o begin
+o // param_text:Using WalkControl Variable
+o // param_text: 0 : Stop,                    1 : Forward,                 2 : Backward,                 3 : Turn Left,       4 = Turn Right,
+o // param_text: 5 : Left Side,          6 : Right Side,                      7 : 1 + 5,                    8 : 1 + 6,              9 : 2 + 5,
+o // param_text:10 : 2 + 6,             11 : Avoid Left,        12 : Avoid Right,           13 : 1 +3,              14 : 1+4,
+o // param_text:15 = 2+3,           16 = 2+4
+- 
+o // param_text:Return if the command is same.(Keep executing the present auto connecting motion.) 
+o if param_src:var:WalkCommand lop:== param_src:var:WalkState rop:then
+o return
+- 
+o compute param_dest:var:Temp1 param_src:dec_num:196 aop:+ param_src:var:WalkPageStart
+o if param_src:motion:1:50 lop:< param_src:var:WalkPageStart rop:|| param_src:motion:1:50 lop:> param_src:var:Temp1 rop:then
+o begin
+o call faddr_dest:EXITPageWaitMotion
+o if param_src:motion:1:50 lop:!= param_src:var:BalancePage rop:then
+o begin
+o load param_dest:motion:1:50 param_src:var:WalkPageStart
+o call faddr_dest:WaitMotion
+o end
+o end
+- 
+o if param_src:var:WalkCommand lop:== param_src:dec_num:0 rop:then
+o begin
+o call faddr_dest:EXITPageWaitMotion
+o load param_dest:var:WalkState param_src:dec_num:0
+o return
+o end
+- 
+o if param_src:var:WalkState lop:== param_src:dec_num:1 rop:then
+o begin
+o if param_src:var:WalkCommand lop:== param_src:dec_num:7 rop:then
+o begin
+o compute param_dest:var:Temp1 param_src:var:WalkPageStart aop:+ param_src:dec_num:3
+o compute param_dest:var:Temp2 param_src:var:WalkPageStart aop:+ param_src:dec_num:4
+o compute param_dest:var:Temp3 param_src:var:WalkPageStart aop:+ param_src:dec_num:1
+o compute param_dest:var:Temp4 param_src:var:WalkPageStart aop:+ param_src:dec_num:8
+o if param_src:motion:1:50 lop:>= param_src:var:Temp1 rop:&& param_src:motion:1:50 lop:<= param_src:var:Temp2 rop:then
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp2 rop:then
+o elseif param_src:motion:1:50 lop:>= param_src:var:Temp3 rop:&& param_src:motion:1:50 lop:<= param_src:var:Temp4 rop:then
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp4 rop:then
+- 
+o call faddr_dest:CurrentPageWaitMotion
+o compute param_dest:motion:1:50 param_src:var:WalkPageStart aop:+ param_src:dec_num:77
+o load param_dest:var:WalkState param_src:dec_num:7
+o return
+o end
+o elseif param_src:var:WalkCommand lop:== param_src:dec_num:8 rop:then
+o begin
+o compute param_dest:var:Temp1 param_src:var:WalkPageStart aop:+ param_src:dec_num:1
+o compute param_dest:var:Temp2 param_src:var:WalkPageStart aop:+ param_src:dec_num:2
+o compute param_dest:var:Temp3 param_src:var:WalkPageStart aop:+ param_src:dec_num:6
+o compute param_dest:var:Temp4 param_src:var:WalkPageStart aop:+ param_src:dec_num:8
+o if param_src:motion:1:50 lop:>= param_src:var:Temp1 rop:&& param_src:motion:1:50 lop:<= param_src:var:Temp2 rop:then
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp2 rop:then
+o elseif param_src:motion:1:50 lop:>= param_src:var:Temp1 rop:&& param_src:motion:1:50 lop:<= param_src:var:Temp4 rop:then
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp3 rop:then
+- 
+o call faddr_dest:CurrentPageWaitMotion
+- 
+o compute param_dest:motion:1:50 param_src:var:WalkPageStart aop:+ param_src:dec_num:91
+o load param_dest:var:WalkState param_src:dec_num:8
+o return
+o end
+o end
+- 
+- 
+o if param_src:var:WalkState lop:== param_src:dec_num:7 rop:then
+o begin
+o if param_src:var:WalkCommand lop:== param_src:dec_num:1 rop:|| param_src:var:WalkCommand lop:== param_src:dec_num:8 rop:then
+o begin
+o compute param_dest:var:Temp1 param_src:var:WalkPageStart aop:+ param_src:dec_num:80
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp1 rop:then
+o call faddr_dest:CurrentPageWaitMotion
+o compute param_dest:motion:1:50 param_src:var:WalkPageStart aop:+ param_src:dec_num:5
+o load param_dest:var:WalkState param_src:dec_num:1
+o return
+o end
+o end
+- 
+- 
+o if param_src:var:WalkState lop:== param_src:dec_num:8 rop:then
+o begin
+o if param_src:var:WalkCommand lop:== param_src:dec_num:1 rop:|| param_src:var:WalkCommand lop:== param_src:dec_num:7 rop:then
+o begin
+o compute param_dest:var:Temp1 param_src:var:WalkPageStart aop:+ param_src:dec_num:90
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp1 rop:then
+o call faddr_dest:CurrentPageWaitMotion
+o compute param_dest:motion:1:50 param_src:var:WalkPageStart aop:+ param_src:dec_num:7
+o load param_dest:var:WalkState param_src:dec_num:1
+o return
+o end
+o end
+- 
+- 
+o if param_src:var:WalkState lop:== param_src:dec_num:2 rop:then
+o begin
+o if param_src:var:WalkState lop:== param_src:dec_num:9 rop:then
+o begin
+o compute param_dest:var:Temp1 param_src:var:WalkPageStart aop:+ param_src:dec_num:13
+o compute param_dest:var:Temp2 param_src:var:WalkPageStart aop:+ param_src:dec_num:14
+o compute param_dest:var:Temp3 param_src:var:WalkPageStart aop:+ param_src:dec_num:18
+o compute param_dest:var:Temp4 param_src:var:WalkPageStart aop:+ param_src:dec_num:20
+o if param_src:motion:1:50 lop:>= param_src:var:Temp1 rop:&& param_src:motion:1:50 lop:<= param_src:var:Temp2 rop:then
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp2 rop:then
+o elseif param_src:motion:1:50 lop:>= param_src:var:Temp1 rop:&& param_src:motion:1:50 lop:<= param_src:var:Temp4 rop:then
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp3 rop:then
+o call faddr_dest:CurrentPageWaitMotion
+- 
+o compute param_dest:motion:1:50 param_src:var:WalkPageStart aop:+ param_src:dec_num:103
+o load param_dest:var:WalkState param_src:dec_num:9
+o return
+o end
+o elseif param_src:var:WalkCommand lop:== param_src:dec_num:10 rop:then
+o begin
+o compute param_dest:var:Temp1 param_src:var:WalkPageStart aop:+ param_src:dec_num:15
+o compute param_dest:var:Temp2 param_src:var:WalkPageStart aop:+ param_src:dec_num:16
+o compute param_dest:var:Temp3 param_src:var:WalkPageStart aop:+ param_src:dec_num:13
+o compute param_dest:var:Temp4 param_src:var:WalkPageStart aop:+ param_src:dec_num:20
+o if param_src:motion:1:50 lop:>= param_src:var:Temp1 rop:&& param_src:motion:1:50 lop:<= param_src:var:Temp2 rop:then
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp2 rop:then
+o elseif param_src:motion:1:50 lop:>= param_src:var:Temp3 rop:&& param_src:motion:1:50 lop:<= param_src:var:Temp4 rop:then
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp4 rop:then
+o call faddr_dest:CurrentPageWaitMotion
+- 
+o compute param_dest:motion:1:50 param_src:var:WalkPageStart aop:+ param_src:dec_num:113
+o load param_dest:var:WalkState param_src:dec_num:10
+o return
+o end
+o end
+- 
+- 
+o if param_src:var:WalkState lop:== param_src:dec_num:9 rop:then
+o begin
+o if param_src:var:WalkCommand lop:== param_src:dec_num:2 rop:|| param_src:var:WalkCommand lop:== param_src:dec_num:10 rop:then
+o begin
+o compute param_dest:var:Temp1 param_src:var:WalkPageStart aop:+ param_src:dec_num:102
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp1 rop:then
+o call faddr_dest:CurrentPageWaitMotion
+o compute param_dest:motion:1:50 param_src:var:WalkPageStart aop:+ param_src:dec_num:19
+o load param_dest:var:WalkState param_src:dec_num:2
+o return
+o end
+o end
+- 
+- 
+o if param_src:var:WalkState lop:== param_src:dec_num:10 rop:then
+o begin
+o if param_src:var:WalkCommand lop:== param_src:dec_num:2 rop:|| param_src:var:WalkCommand lop:== param_src:dec_num:9 rop:then
+o begin
+o compute param_dest:var:Temp1 param_src:var:WalkPageStart aop:+ param_src:dec_num:116
+o wait param_src:motion:1:50 lop:!= param_src:var:Temp1 rop:then
+o call faddr_dest:CurrentPageWaitMotion
+o compute param_dest:motion:1:50 param_src:var:WalkPageStart aop:+ param_src:dec_num:17
+o load param_dest:var:WalkState param_src:dec_num:2
+o return
+o end
+o end
+- 
+- 
+o if param_src:var:WalkCommand lop:>= param_src:dec_num:1 rop:&& param_src:var:WalkCommand lop:<= param_src:dec_num:20 rop:then
+o begin
+o // param_text:Using WalkControl Variable
+o // param_text: 0 : Stop,                    1 : Forward,                 2 : Backward,                 3 : Turn Left,       4 = Turn Right,
+o // param_text: 5 : Left Side,          6 : Right Side,                      7 : 1 + 5,                    8 : 1 + 6,              9 : 2 + 5,
+o // param_text:10 : 2 + 6,             11 : Avoid Left,        12 : Avoid Right,           13 : 1 +3,              14 : 1+4,
+o // param_text:15 = 2+3,           16 = 2+4
+o // param_text:Enter into courses when the change of walking status is required. 
+o call faddr_dest:EXITPageWaitMotion
+o // param_text:Calculate current walking status and starting location.
+x load param_dest:cm:9 param_src:motion:1:50
+o compute param_dest:var:WalkPage param_src:motion:1:50 aop:- param_src:var:WalkPageStart
+- 
+o compute param_dest:var:Temp1 param_src:var:WalkPage aop:/ param_src:dec_num:12
+o compute param_dest:var:Temp1 param_src:var:Temp1 aop:* param_src:dec_num:12
+- 
+o compute param_dest:var:LeftRightStep param_src:var:WalkPage aop:- param_src:var:Temp1
+o // param_text:Need to judge where to go between the left and right direction. 
+- 
+o if param_src:var:LeftRightStep lop:== param_src:dec_num:10 rop:then
+o load param_dest:var:LeftRightStep param_src:dec_num:2
+o else
+o load param_dest:var:LeftRightStep param_src:dec_num:0
+- 
+o // param_text:Go on to ‘present walking command’ page
+o compute param_dest:var:WalkPage param_src:var:WalkCommand aop:- param_src:dec_num:1
+o compute param_dest:var:WalkPage param_src:var:WalkPage aop:* param_src:dec_num:12
+o compute param_dest:var:WalkPage param_src:var:WalkPage aop:+ param_src:var:WalkPageStart
+o compute param_dest:var:WalkPage param_src:var:WalkPage aop:+ param_src:var:LeftRightStep
+o compute param_dest:motion:1:50 param_src:var:WalkPage aop:+ param_src:dec_num:1
+o load param_dest:var:WalkState param_src:var:WalkState
+o end
+o end
+o function faddr_src:CurrentPageWaitMotion
+o begin
+o load param_dest:motion:1:50 param_src:dec_num:-1
+o call faddr_dest:WaitMotion
+o end
+o function faddr_src:EXITPageWaitMotion
+o begin
+o load param_dest:motion:1:50 param_src:dec_num:0
+o call faddr_dest:WaitMotion
+o end
+o function faddr_src:WaitMotion
+o begin
+o wait param_src:motion:1:51 lop:== param_src:bool_num:1 rop:then
+o end
+- 
+- 
+o function faddr_src:InitializationGyro
+o begin
+o load param_dest:var:FBBalCenter param_src:dec_num:0
+o load param_dest:var:RLBalCenter param_src:dec_num:0
+- 
+o for param_var:i param_src:dec_num:1 param_src:dec_num:10
+o begin
+o load param_dest:var:FBBalData param_src:aux:3:67
+o load param_dest:var:RLBalData param_src:aux:4:67
+- 
+o compute param_dest:var:FBBalCenter param_src:var:FBBalCenter aop:+ param_src:var:FBBalData
+o compute param_dest:var:RLBalCenter param_src:var:RLBalCenter aop:+ param_src:var:RLBalData
+- 
+o load param_dest:cm:5 param_src:timer_num:1
+o wait param_src:cm:5 lop:> param_src:timer_num:0 rop:then
+o end
+- 
+o compute param_dest:var:FBBalCenter param_src:var:FBBalCenter aop:/ param_src:dec_num:10
+o compute param_dest:var:RLBalCenter param_src:var:RLBalCenter aop:/ param_src:dec_num:10
+- 
+o load param_dest:var:ExistGyro param_src:bool_num:1
+o if param_src:var:FBBalCenter lop:> param_src:dec_num:270 rop:|| param_src:var:FBBalCenter lop:< param_src:dec_num:230 rop:then
+o load param_dest:var:ExistGyro param_src:bool_num:0
+o if param_src:var:RLBalCenter lop:> param_src:dec_num:270 rop:|| param_src:var:RLBalCenter lop:< param_src:dec_num:230 rop:then
+o load param_dest:var:ExistGyro param_src:bool_num:0
+- 
+o load param_dest:var:UseGyro param_src:bool_num:1
+o end
+- 
+o callback
+o begin
+o if param_src:var:UseGyro lop:== param_src:bool_num:1 rop:&& param_src:var:ExistGyro lop:== param_src:bool_num:1 rop:then
+o begin
+o load param_dest:var:FBBalData param_src:aux:3:67
+o load param_dest:var:RLBalData param_src:aux:4:67
+- 
+o compute param_dest:var:FBBalError param_src:var:FBBalData aop:- param_src:var:FBBalCenter
+o compute param_dest:var:RLBalError param_src:var:RLBalData aop:- param_src:var:RLBalCenter
+- 
+o compute param_dest:var:FBBalErrorScaled param_src:var:FBBalError aop:* param_src:dec_num:4
+o compute param_dest:var:RLBalErrorScaled param_src:var:RLBalError aop:* param_src:dec_num:4
+- 
+o compute param_dest:var:FinalFBBal1 param_src:var:FBBalErrorScaled aop:/ param_src:dec_num:54
+o compute param_dest:var:FinalFBBal2 param_src:var:FBBalErrorScaled aop:/ param_src:dec_num:18
+- 
+o compute param_dest:var:FinalRLBal0 param_src:var:RLBalErrorScaled aop:/ param_src:dec_num:20
+o compute param_dest:var:FinalRLBal1 param_src:var:RLBalErrorScaled aop:/ param_src:dec_num:40
+- 
+o compute param_dest:cm_custom:w:141 param_src:dec_num:0 aop:+ param_src:var:FinalFBBal1
+o compute param_dest:cm_custom:w:143 param_src:dec_num:0 aop:+ param_src:var:FinalFBBal2
+o compute param_dest:cm_custom:w:142 param_src:dec_num:0 aop:- param_src:var:FinalFBBal1
+o compute param_dest:cm_custom:w:144 param_src:dec_num:0 aop:- param_src:var:FinalFBBal2
+- 
+o compute param_dest:cm_custom:w:137 param_src:dec_num:0 aop:+ param_src:var:FinalRLBal1
+o compute param_dest:cm_custom:w:138 param_src:dec_num:0 aop:+ param_src:var:FinalRLBal1
+o compute param_dest:cm_custom:w:145 param_src:dec_num:0 aop:- param_src:var:FinalRLBal0
+o compute param_dest:cm_custom:w:146 param_src:dec_num:0 aop:- param_src:var:FinalRLBal0
+o end
+o else
+o begin
+o load param_dest:cm_custom:w:141 param_src:dec_num:0
+o load param_dest:cm_custom:w:143 param_src:dec_num:0
+o load param_dest:cm_custom:w:142 param_src:dec_num:0
+o load param_dest:cm_custom:w:144 param_src:dec_num:0
+- 
+o load param_dest:cm_custom:w:137 param_src:dec_num:0
+o load param_dest:cm_custom:w:138 param_src:dec_num:0
+o load param_dest:cm_custom:w:145 param_src:dec_num:0
+o load param_dest:cm_custom:w:146 param_src:dec_num:0
+o end
+o end
