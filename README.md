@@ -2,11 +2,11 @@
 Bioloid Premium Type A
 
 
-# ---------------------------Demo-----------------------
+## _---------------------------Demo-----------------------_
 
-## no1_Walking_forward
+### no1_Walking_forward
 
 
-## no2_IR_sensor
+### no2_IR_sensor
 
-## no3_Push Up
+### no3_Push Up
