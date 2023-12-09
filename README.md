@@ -12,4 +12,5 @@ https://github.com/bien2552001/Bioloid-Premium_Type_A/assets/128835452/0768d859-
 
 
 ### no3_Push Up
-https://github.com/bien2552001/Bioloid-Premium_Type_A/assets/128835452/928a8273-a995-47a3-af32-fa821222346f
+https://github.com/bien2552001/Bioloid-Premium_Type_A/assets/128835452/3987d917-0373-464c-bab6-f542fd87a0bd
+
