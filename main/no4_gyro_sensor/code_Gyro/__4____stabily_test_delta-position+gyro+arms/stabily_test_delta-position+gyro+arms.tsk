@@ -1,0 +1,149 @@
+﻿version 3.00
+cm_version 1.0
+platform CM-510
+o main
+o begin
+o load param_dest:motion:1:50 param_src:dec_num:18
+o call faddr_dest:WaitMotion
+o call faddr_dest:InitializationGyro
+- 
+o while(1)
+o begin
+o call faddr_dest:mesure_Delta
+o load param_dest:motion:1:50 param_src:dec_num:227
+o call faddr_dest:WaitMotion
+o if param_src:cm:4 lop:== param_src:button_num:8 rop:then
+o begin
+o load param_dest:var:GyroUse param_src:bool_num:1
+o load param_dest:cm:18 param_src:buzzertime_num:255
+o load param_dest:cm:17 param_src:melody_num:0
+o end
+o if param_src:cm:4 lop:== param_src:button_num:4 rop:then
+o begin
+o load param_dest:var:GyroUse param_src:bool_num:0
+o load param_dest:cm:18 param_src:buzzertime_num:255
+o load param_dest:cm:17 param_src:melody_num:1
+o end
+o end
+o end
+o function faddr_src:mesure_Delta
+o begin
+o load param_dest:var:deadzone_av param_src:dec_num:-2
+o load param_dest:var:deadzone_arr param_src:dec_num:2
+o load param_dest:var:deadzone_dr param_src:dec_num:-2
+o load param_dest:var:deadzone_ga param_src:dec_num:2
+- 
+o compute param_dest:var:delta15 param_src:motor:15:106 aop:- param_src:motor:15:109
+o compute param_dest:var:delta16 param_src:motor:16:109 aop:- param_src:motor:16:106
+o compute param_dest:var:delta17 param_src:motor:17:106 aop:- param_src:motor:17:109
+o compute param_dest:var:delta18 param_src:motor:18:106 aop:- param_src:motor:18:109
+o compute param_dest:var:delta_av_arr param_src:var:delta15 aop:+ param_src:var:delta16
+o compute param_dest:var:delta_av_arr param_src:var:delta_av_arr aop:/ param_src:dec_num:2
+o if param_src:var:delta_av_arr lop:> param_src:var:deadzone_av rop:&& param_src:var:delta_av_arr lop:< param_src:var:deadzone_arr rop:then
+o begin
+o load param_dest:var:delta_av_arr param_src:dec_num:0
+o end
+o compute param_dest:var:delta_av_arr_offset_tmp param_src:var:delta_av_arr_offset_tmp aop:+ param_src:var:delta_av_arr
+- 
+o compute param_dest:var:delta_ga_dr param_src:var:delta17 aop:+ param_src:var:delta18
+o compute param_dest:var:error_ga_dr param_src:var:delta_ga_dr aop:/ param_src:dec_num:2
+o if param_src:var:error_ga_dr lop:> param_src:var:deadzone_dr rop:&& param_src:var:error_ga_dr lop:< param_src:var:deadzone_ga rop:then
+o begin
+o load param_dest:var:delta_ga_dr param_src:dec_num:0
+o end
+o compute param_dest:var:delta_ga_dr_17_18_offset param_src:var:delta_ga_dr_17_18_offset aop:+ param_src:var:delta_ga_dr
+o compute param_dest:var:delta_ga_dr_13_14_offset param_src:dec_num:0 aop:- param_src:var:delta_ga_dr_17_18_offset
+o compute param_dest:var:delta_ga_dr_11_12_15_16_offset param_src:var:delta_ga_dr_17_18_offset aop:/ param_src:dec_num:2
+- 
+o compute param_dest:var:delta_av_arr_offset param_src:var:delta_av_arr_offset_tmp aop:+ param_src:var:delta_ga_dr_11_12_15_16_offset
+o compute param_dest:var:delta_av_arr_offset_16 param_src:var:delta_ga_dr_11_12_15_16_offset aop:- param_src:var:delta_av_arr_offset_tmp
+o end
+- 
+o function faddr_src:InitializationGyro
+o begin
+o load param_dest:var:FBBalCenter param_src:dec_num:0
+o load param_dest:var:RLBalCenter param_src:dec_num:0
+- 
+o for param_var:i param_src:dec_num:1 param_src:dec_num:10
+o begin
+o load param_dest:var:FBBalData param_src:aux:3:67
+o load param_dest:var:RLBalData param_src:aux:4:67
+- 
+o compute param_dest:var:FBBalCenter param_src:var:FBBalCenter aop:+ param_src:var:FBBalData
+o compute param_dest:var:RLBalCenter param_src:var:RLBalCenter aop:+ param_src:var:RLBalData
+- 
+o load param_dest:cm:5 param_src:timer_num:1
+o wait param_src:cm:5 lop:> param_src:timer_num:0 rop:then
+o end
+- 
+o compute param_dest:var:FBBalCenter param_src:var:FBBalCenter aop:/ param_src:dec_num:10
+o compute param_dest:var:RLBalCenter param_src:var:RLBalCenter aop:/ param_src:dec_num:10
+- 
+o load param_dest:var:ExistGyro param_src:bool_num:1
+o if param_src:var:FBBalCenter lop:> param_src:dec_num:270 rop:|| param_src:var:FBBalCenter lop:< param_src:dec_num:230 rop:then
+o load param_dest:var:ExistGyro param_src:bool_num:0
+o if param_src:var:RLBalCenter lop:> param_src:dec_num:270 rop:|| param_src:var:RLBalCenter lop:< param_src:dec_num:230 rop:then
+o load param_dest:var:ExistGyro param_src:bool_num:0
+- 
+o if param_src:var:ExistGyro lop:== param_src:bool_num:0 rop:then
+o begin
+o load param_dest:cm:18 param_src:buzzertime_num:255
+o load param_dest:cm:17 param_src:melody_num:7
+o end
+o load param_dest:var:GyroUse param_src:bool_num:1
+o end
+- 
+o function faddr_src:WaitMotion
+o begin
+o wait param_src:motion:1:51 lop:== param_src:bool_num:1 rop:then
+o end
+- 
+o callback
+o begin
+o if param_src:var:GyroUse lop:== param_src:bool_num:1 rop:&& param_src:var:ExistGyro lop:== param_src:bool_num:1 rop:then
+o begin
+o load param_dest:var:FBBalData param_src:aux:3:67
+o load param_dest:var:RLBalData param_src:aux:4:67
+- 
+o compute param_dest:var:FBBalError param_src:var:FBBalData aop:- param_src:var:FBBalCenter
+o compute param_dest:var:RLBalError param_src:var:RLBalData aop:- param_src:var:RLBalCenter
+- 
+o compute param_dest:var:FBBalErrorScaled param_src:var:FBBalError aop:* param_src:dec_num:4
+o compute param_dest:var:RLBalErrorScaled param_src:var:RLBalError aop:* param_src:dec_num:4
+- 
+o compute param_dest:var:FinalFBBal0 param_src:var:FBBalErrorScaled aop:/ param_src:dec_num:10
+o compute param_dest:var:FinalFBBal1 param_src:var:FBBalErrorScaled aop:/ param_src:dec_num:54
+o compute param_dest:var:FinalFBBal2 param_src:var:FBBalErrorScaled aop:/ param_src:dec_num:18
+- 
+o compute param_dest:var:FinalRLBal0 param_src:var:RLBalErrorScaled aop:/ param_src:dec_num:20
+o compute param_dest:var:FinalRLBal1 param_src:var:RLBalErrorScaled aop:/ param_src:dec_num:40
+- 
+o compute param_dest:cm_custom:w:129 param_src:dec_num:0 aop:+ param_src:var:FinalFBBal0
+o compute param_dest:cm_custom:w:130 param_src:dec_num:0 aop:- param_src:var:FinalFBBal0
+o compute param_dest:cm_custom:w:139 param_src:dec_num:0 aop:- param_src:var:delta_ga_dr_11_12_15_16_offset
+o compute param_dest:cm_custom:w:140 param_src:dec_num:0 aop:- param_src:var:delta_ga_dr_11_12_15_16_offset
+o compute param_dest:cm_custom:w:141 param_src:var:delta_ga_dr_13_14_offset aop:+ param_src:var:FinalFBBal1
+o compute param_dest:cm_custom:w:143 param_src:var:delta_av_arr_offset aop:+ param_src:var:FinalFBBal2
+o compute param_dest:cm_custom:w:142 param_src:var:delta_ga_dr_13_14_offset aop:- param_src:var:FinalFBBal1
+o compute param_dest:cm_custom:w:144 param_src:var:delta_av_arr_offset_16 aop:- param_src:var:FinalFBBal2
+- 
+o compute param_dest:cm_custom:w:137 param_src:dec_num:0 aop:+ param_src:var:FinalRLBal1
+o compute param_dest:cm_custom:w:138 param_src:dec_num:0 aop:+ param_src:var:FinalRLBal1
+o compute param_dest:cm_custom:w:145 param_src:var:delta_ga_dr_17_18_offset aop:- param_src:var:FinalRLBal0
+o compute param_dest:cm_custom:w:146 param_src:var:delta_ga_dr_17_18_offset aop:- param_src:var:FinalRLBal0
+o end
+o else
+o begin
+o compute param_dest:cm_custom:w:139 param_src:dec_num:0 aop:- param_src:var:delta_ga_dr_11_12_15_16_offset
+o compute param_dest:cm_custom:w:140 param_src:dec_num:0 aop:- param_src:var:delta_ga_dr_11_12_15_16_offset
+o load param_dest:cm_custom:w:141 param_src:var:delta_ga_dr_13_14_offset
+o load param_dest:cm_custom:w:143 param_src:var:delta_av_arr_offset
+o load param_dest:cm_custom:w:142 param_src:var:delta_ga_dr_13_14_offset
+o load param_dest:cm_custom:w:144 param_src:var:delta_av_arr_offset_16
+- 
+o load param_dest:cm_custom:w:137 param_src:dec_num:0
+o load param_dest:cm_custom:w:138 param_src:dec_num:0
+o load param_dest:cm_custom:w:145 param_src:var:delta_ga_dr_17_18_offset
+o load param_dest:cm_custom:w:146 param_src:var:delta_ga_dr_17_18_offset
+o end
+o end

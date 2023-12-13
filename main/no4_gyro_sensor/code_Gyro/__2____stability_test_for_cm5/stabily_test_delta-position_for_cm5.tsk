@@ -1,0 +1,67 @@
+﻿version 2.02
+platform bioloid
+o main
+o begin
+o load param_dest:motion:24 param_src:dec_num:1
+o call faddr_dest:WaitMotion
+- 
+o while(1)
+o begin
+o call faddr_dest:mesure_Delta
+o load param_dest:motion:24 param_src:dec_num:2
+o call faddr_dest:WaitMotion
+o end
+o end
+o function faddr_src:mesure_Delta
+o begin
+o load param_dest:var:deadzone_av param_src:dec_num:-3
+o load param_dest:var:deadzone_arr param_src:dec_num:3
+o load param_dest:var:deadzone_dr param_src:dec_num:-2
+o load param_dest:var:deadzone_ga param_src:dec_num:2
+- 
+o compute param_dest:var:delta15 param_src:motor:15:30 aop:- param_src:motor:15:36
+o compute param_dest:var:delta16 param_src:motor:16:36 aop:- param_src:motor:16:30
+o compute param_dest:var:delta17 param_src:motor:17:30 aop:- param_src:motor:17:36
+o compute param_dest:var:delta18 param_src:motor:18:30 aop:- param_src:motor:18:36
+o compute param_dest:var:delta_av_arr param_src:var:delta15 aop:+ param_src:var:delta16
+o compute param_dest:var:delta_av_arr param_src:var:delta_av_arr aop:/ param_src:dec_num:2
+o if param_src:var:delta_av_arr lop:> param_src:var:deadzone_av rop:&& param_src:var:delta_av_arr lop:< param_src:var:deadzone_arr rop:then
+o begin
+o load param_dest:var:delta_av_arr param_src:dec_num:0
+o end
+o compute param_dest:var:delta_av_arr_offset_tmp param_src:var:delta_av_arr_offset_tmp aop:+ param_src:var:delta_av_arr
+- 
+o compute param_dest:var:delta_ga_dr param_src:var:delta17 aop:+ param_src:var:delta18
+o compute param_dest:var:error_ga_dr param_src:var:delta_ga_dr aop:/ param_src:dec_num:2
+o if param_src:var:error_ga_dr lop:> param_src:var:deadzone_dr rop:&& param_src:var:error_ga_dr lop:< param_src:var:deadzone_ga rop:then
+o begin
+o load param_dest:var:delta_ga_dr param_src:dec_num:0
+o end
+o compute param_dest:var:delta_ga_dr_17_18_offset param_src:var:delta_ga_dr_17_18_offset aop:+ param_src:var:delta_ga_dr
+o compute param_dest:var:delta_ga_dr_13_14_offset param_src:dec_num:0 aop:- param_src:var:delta_ga_dr_17_18_offset
+o compute param_dest:var:delta_ga_dr_11_12_15_16_offset param_src:var:delta_ga_dr_17_18_offset aop:/ param_src:dec_num:2
+- 
+o compute param_dest:var:delta_av_arr_offset param_src:var:delta_av_arr_offset_tmp aop:+ param_src:var:delta_ga_dr_11_12_15_16_offset
+o compute param_dest:var:delta_av_arr_offset_16 param_src:var:delta_ga_dr_11_12_15_16_offset aop:- param_src:var:delta_av_arr_offset_tmp
+o end
+- 
+o function faddr_src:WaitMotion
+o begin
+o wait param_src:motion:25 lop:== param_src:bool_num:1 rop:then
+o end
+- 
+o callback
+o begin
+o compute param_dest:motion:139 param_src:dec_num:0 aop:- param_src:var:delta_ga_dr_11_12_15_16_offset
+o compute param_dest:motion:140 param_src:dec_num:0 aop:- param_src:var:delta_ga_dr_11_12_15_16_offset
+o load param_dest:motion:141 param_src:var:delta_ga_dr_13_14_offset
+o load param_dest:motion:143 param_src:var:delta_av_arr_offset
+o load param_dest:motion:142 param_src:var:delta_ga_dr_13_14_offset
+o load param_dest:motion:144 param_src:var:delta_av_arr_offset_16
+- 
+o load param_dest:motion:137 param_src:dec_num:0
+o load param_dest:motion:138 param_src:dec_num:0
+o load param_dest:motion:145 param_src:var:delta_ga_dr_17_18_offset
+o load param_dest:motion:146 param_src:var:delta_ga_dr_17_18_offset
+o end
+kZ
